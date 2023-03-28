@@ -8,6 +8,7 @@ const { default: mongoose } = require('mongoose')
 
 const User = require('./models/User')
 const { genSaltSync } = require('bcrypt')
+const Post = require('./models/Post')
 
 
 const bcryptSalt = genSaltSync(12)
@@ -27,6 +28,15 @@ app.use(cors({
 // app.get('/',(req, res)=>{
 //     res.send('ok')
 // })
+
+function getUserDataFromReq(req) {
+    return new Promise((resolve, reject) => {
+        jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            resolve(userData);
+        })
+    })
+}
 
 app.post('/register', async (req, res) => {
     const { name, email, password } = req.body
@@ -80,6 +90,24 @@ app.post('/logout', (req, res) => {
     res.cookie('token', '').json(true)
 })
 
+app.post('/post', (req, res) => {
+    const { token } = req.cookies
+    const { title, content } = req.body
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+        if (err) throw err
+        const postsDoc = await Post.create({
+            author: userData.id,
+            title,
+            content,
+            postAt: Date.now()
+        })
+        res.json(postsDoc)
+    })
+})
+
+app.get('/post',async (req, res)=>{
+    res.json(await Post.find().populate('author'))
+})
 
 const PORT = 4000
 app.listen(PORT)
