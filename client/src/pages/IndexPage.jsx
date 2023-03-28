@@ -6,7 +6,7 @@ import PostForm from '../components/PostForm'
 export default function IndexPage() {
     return(
         <div className=''>
-        {/* <AuthModal/> */}
+        <AuthModal/>
         <BoardHeader />
         <PostForm />
         <div className="px-6 text-reddit_text mb-4">

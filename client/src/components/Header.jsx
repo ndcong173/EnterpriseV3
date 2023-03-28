@@ -67,7 +67,7 @@ export default function Header() {
 
                 </button>
                 {/* </ClickOutHandler> */}
-                <div className={"absolute right-0 top-9 bg-reddit_dark border border-gray-700 z-10 rounded-md text-reddit_text overflow-hidden text-sm " + dropDown}>
+                <div className={"absolute right-0 top-10 bg-reddit_dark border border-gray-700 z-10 rounded-md text-reddit_text overflow-hidden text-sm " + dropDown}>
                     {!user && (
                         <Link to={'/login'} className="flex w-50 py-2 px-3 hover:bg-gray-300 hover:text-black">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2 ">

@@ -27,7 +27,7 @@ export default function RegisterPage() {
 
     return (
         <div className="bg-reddit_dark min-h-screen pt-40">
-            <div className=" bg-reddit_dark border border-reddit_dark-brightest p-5 w-1/2 lg:w-1/4 mx-auto rounded-2xl text-reddit_text self-center">
+            <form className=" bg-reddit_dark border border-reddit_dark-brightest p-5 w-1/2 lg:w-1/4 mx-auto rounded-2xl text-reddit_text self-center">
                 <h1 className="text-xl mb-5">Sign up</h1>
                 <label>
                     <span className="text-reddit_text-darker text-sm">Email</span>
@@ -63,7 +63,7 @@ export default function RegisterPage() {
                 <div>
                     Already have an account? <Link to={'/login'} className=" text-orange-500 font-bold"> Login now!!</Link>
                 </div>
-            </div>
+            </form>
         </div>
 
     )
