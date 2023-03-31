@@ -1,7 +1,7 @@
 export default function BoardHeader() {
     return (
         <>
-            <div className="h-40 bg-fixed bg-[url('https://contentstatic.techgig.com/photo/84794342/what-are-the-key-responsibilities-of-web-developers.jpg?49831')]" >
+            <div className="h-40 bg-fixed bg-[url('https://c1.wallpaperflare.com/preview/495/109/110/orange-texture-texture-wall-background.jpg')]" >
             </div>
             <div className=' bg-reddit_dark-brighter'>
                 <div className="mx-6 relative flex">

@@ -5,6 +5,7 @@ import PostForm from '../components/PostForm'
 import PostModal from '..//components/PostModal'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import PostViewModal from '../components/PostViewModal'
 
 export default function IndexPage() {
 
@@ -19,6 +20,7 @@ export default function IndexPage() {
   return (
     <div className=''>
       <PostModal className='hidden' />
+      {/* <PostViewModal /> */}
       <BoardHeader />
       <PostForm />
       {posts.length > 0 && posts.map(post => (

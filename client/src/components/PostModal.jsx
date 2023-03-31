@@ -7,7 +7,7 @@ import PostFormContext from './PostFormContext'
 export default function AuthModal() {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    
+
     const modalContext = useContext(PostFormContext)
 
     const visibleClass = modalContext.show ? ' block' : ' hidden';
@@ -19,8 +19,9 @@ export default function AuthModal() {
         modalContext.setShow(false)
     }
 
+
     return (
-        <div className={"w-screen min-h-screen fixed top-0 left-0 z-20 flex"+ visibleClass} style={{ backgroundColor: 'rgb(0,0,0,.6)' }}>
+        <div className={"w-screen min-h-screen fixed top-0 left-0 z-20 flex" + visibleClass} style={{ backgroundColor: 'rgb(0,0,0,.6)' }}>
             <form className="bg-reddit_dark border border-reddit_dark-brightest p-5 w-3/4 md:w-1/2 lg:w-1/2 mx-auto rounded-2xl text-reddit_text self-center">
                 <h1 className="text-xl mb-5">Add New Post</h1>
                 <label>
@@ -97,9 +98,13 @@ export default function AuthModal() {
                         </div>
                     </div>
                     <Button onClick={createPost}>Post</Button>
-                    <Button className='ml-2' outline onClick={()=> modalContext.setShow(false)}>Cancel</Button>
+                    <Button className='ml-2' outline onClick={() => modalContext.setShow(false)}>Cancel</Button>
                 </div>
             </form>
         </div>
+
+
     )
+
+
 }
