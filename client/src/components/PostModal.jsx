@@ -17,6 +17,7 @@ export default function AuthModal() {
         const postData = { title, content }
         await axios.post('/post', postData)
         modalContext.setShow(false)
+        window.location.reload()
     }
 
 

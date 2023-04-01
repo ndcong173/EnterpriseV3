@@ -39,16 +39,18 @@ function getUserDataFromReq(req) {
 }
 
 app.post('/register', async (req, res) => {
-    const { name, email, password } = req.body
+    const { name, email, password, role } = req.body
+
     try {
         const userDoc = await User.create({
             name,
             email,
-            password: bcrypt.hashSync(password, bcryptSalt)
+            password: bcrypt.hashSync(password, bcryptSalt),
+            role,
         })
         res.json(userDoc)
     } catch (error) {
-        res.status(422).json(e)
+        res.status(422).json(error)
     }
 })
 
@@ -78,8 +80,8 @@ app.get('/profile', (req, res) => {
     if (token) {
         jwt.verify(token, jwtSecret, {}, async (err, userData) => {
             if (err) throw err
-            const { name, email, _id } = await User.findById(userData.id)
-            res.json({ name, email, _id })
+            const { name, email, _id, role } = await User.findById(userData.id)
+            res.json({ name, email, _id, role })
         })
     } else {
         res.json(null)

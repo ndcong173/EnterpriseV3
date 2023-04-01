@@ -10,6 +10,7 @@ import AccountPage from './pages/AccountPage'
 import Layout from './components/Layout'
 import PostFormContext from './components/PostFormContext'
 import { useState } from 'react'
+import AddUserPage from './pages/AddUserPage'
 
 axios.defaults.baseURL = 'http://127.0.0.1:4000'
 axios.defaults.withCredentials = true
@@ -27,6 +28,7 @@ function App() {
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/account' element={<AccountPage />} />
+            <Route path='/add-user' element={<AddUserPage/>} />
           </Route>
         </Routes>
       </PostFormContext.Provider>

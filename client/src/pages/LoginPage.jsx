@@ -53,13 +53,6 @@ export default function LoginPage() {
         <Button className="w-full py-2 mb-3" onClick={(e) => handleLogin(e)}>
           Login
         </Button>
-        <div>
-          You're a newbie?{" "}
-          <Link to={"/register"} className=" text-orange-500  font-bold">
-            {" "}
-            Register now!!
-          </Link>
-        </div>
       </form>
     </div>
   );

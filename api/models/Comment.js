@@ -8,6 +8,6 @@ const commentSchema = new Schema({
     postAt:{type:String}
 })
 
-const CommentModel = mongoose.model('Comment',commentSchema)
+const CommentModel = mongoose.model('Comment',commentSchema) 
 
 module.exports = CommentModel
