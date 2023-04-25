@@ -94,21 +94,33 @@ app.post('/logout', (req, res) => {
 
 app.post('/post', (req, res) => {
     const { token } = req.cookies
-    const { title, content } = req.body
+    const { title, content, parentId, rootId } = req.body
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
         if (err) throw err
         const postsDoc = await Post.create({
             author: userData.id,
             title,
             content,
-            postAt: Date.now()
+            postAt: Date.now(),
+            parentId,
+            rootId,
         })
         res.json(postsDoc)
     })
 })
 
-app.get('/post',async (req, res)=>{
-    res.json(await Post.find().populate('author'))
+app.get('/post', async (req, res) => {
+    res.json(await Post.find({rootId:null}).populate('author'))
+})
+
+app.get('/post/:id', async (req, res) => {
+    const { id } = req.params;
+    res.json(await Post.findById(id).populate('author'));
+})
+
+app.get('/post/root/:rootId',async (req, res)=>{
+    const { rootId } = req.params;
+    res.json(await Post.find({rootId:rootId}).populate('author'));
 })
 
 const PORT = 4000
