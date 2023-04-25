@@ -5,11 +5,19 @@ import ClickOutHandler from 'react-clickout-handler'
 import { Link, Navigate } from "react-router-dom"
 import { UserContext } from "./UserContext"
 import 'flowbite';
+import AuthModalContext from "./AuthModalContext"
 
 
 export default function Header() {
 
-    const { user } = useContext(UserContext)
+    const authModal = useContext(AuthModalContext);
+    const { user, setUser } = useContext(UserContext)
+
+    async function logout() {
+        await axios.post('/logout')
+        setUser(null);
+        window.location.reload(true)
+    }
 
     return (
         <header className='w-full bg-reddit_dark p-2 fixed z-20 top-0 left-0 right-0 border-b-2 border-b-reddit_dark-brightest'>
@@ -54,12 +62,19 @@ export default function Header() {
                 <div id="dropdownAvatar" class="z-10 hidden bg-reddit_dark divide-y divide-gray-100 rounded-lg shadow w-40 border border-reddit_border overflow-hidden">
                     <div class="py-2 ">
                         {!user && (
-                            <Link to={'/login'} class="block px-4 py-2 text-sm text-reddit_text bg-reddit_dark  hover:bg-reddit_dark-brighter ">Login</Link>
+                            <button
+                                onClick={() => authModal.setShow('login')}
+                                className="flex w-50 py-2 px-3 text-gray-300 w-full hover:bg-gray-300 hover:text-black text-sm">
+                                Log In 
+                            </button>
                         )}
                         {!!user && (
-                            <Link to={'/account'} class="block px-4 py-2 text-sm text-reddit_text bg-reddit_dark  hover:bg-reddit_dark-brighter ">Profile</Link>
+                            <button
+                                onClick={() => logout()}
+                                className="flex w-50 py-2 px-3 text-gray-300 w-full hover:bg-gray-300 hover:text-black text-sm">
+                                Logout
+                            </button>
                         )}
-
                     </div>
                 </div>
             </div>

@@ -1,6 +1,5 @@
 import { createContext } from "react";
 
+const PostModalContext = createContext({});
 
-const AuthModalContext = createContext({});
-
-export default AuthModalContext;
+export default PostModalContext;
