@@ -1,32 +1,34 @@
 import './App.css'
-
-import { Routes, Route } from 'react-router-dom'
-import IndexPage from './pages/IndexPage'
-import RegisterPage from './pages/RegisterPage'
-import LoginPage from './pages/LoginPage'
+import PostFormModal from './components/PostFormModal'
+import AuthModal from './components/AuthModal'
 import axios from 'axios'
 import { UserContextProvider } from './components/UserContext'
-import AccountPage from './pages/AccountPage'
-import Layout from './components/Layout'
+import PostFormContext from './components/PostFormContext'
+import { useEffect, useState } from 'react'
+import AuthModalContext from './components/AuthModalContext'
+import Routing from './components/Routing'
 
 axios.defaults.baseURL = 'http://127.0.0.1:4000'
 axios.defaults.withCredentials = true
 
 function App() {
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showPostFormModal, setShowPostFormModal] = useState(false)
+
+
 
   return (
-    <UserContextProvider>
-      <Routes>
-        <Route path='/' element={<Layout />}>
-          <Route index element={<IndexPage />} />
-          <Route path='/register' element={<RegisterPage />} />
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/account' element={<AccountPage />} />
-        </Route>
-
-
-      </Routes>
-    </UserContextProvider>
+    <AuthModalContext.Provider value={{ show: showAuthModal, setShow: setShowAuthModal }}>
+      <UserContextProvider>
+        <PostFormContext.Provider value={{ show: showPostFormModal, setShow: setShowPostFormModal }}>
+          <div className='bg-reddit_dark min-h-screen mx-auto'>
+            <PostFormModal className='hidden' />
+            <AuthModal />
+            <Routing/>
+          </div>
+        </PostFormContext.Provider>
+      </UserContextProvider>
+    </AuthModalContext.Provider>
 
 
   )

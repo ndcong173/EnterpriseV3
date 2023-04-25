@@ -4,21 +4,19 @@ import Button from "./Button"
 import ClickOutHandler from 'react-clickout-handler'
 import { Link, Navigate } from "react-router-dom"
 import { UserContext } from "./UserContext"
+import 'flowbite';
+import AuthModalContext from "./AuthModalContext"
 
 
 export default function Header() {
 
-    const [redirect, setRedirect] = useState(null)
+    const authModal = useContext(AuthModalContext);
+    const { user, setUser } = useContext(UserContext)
 
-    const { ready, user, setUser } = useContext(UserContext)
-
-    const [dropDown, setDropDown] = useState('hidden')
-    function toggleDropDown() {
-        if (dropDown === 'hidden') {
-            setDropDown('block')
-        } else {
-            setDropDown('hidden')
-        }
+    async function logout() {
+        await axios.post('/logout')
+        setUser(null);
+        window.location.reload(true)
     }
 
     return (
@@ -28,7 +26,7 @@ export default function Header() {
                     <img src="./Logo.png" alt="" className='w-9 h-9' />
                     <span className=" text-orange-500 text-2xl font-bold my-1">Reddish</span>
                 </Link>
-                <form action="" className='bg-reddit_dark-brighter text-gray-300 px-3 flex rounded-full border border-reddit_border flex-grow mx-48'>
+                <form action="" className='bg-reddit_dark-brighter text-gray-300 px-3 hidden md:flex rounded-full border border-reddit_border flex-grow mx-48'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mt-2">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                     </svg>
@@ -43,48 +41,41 @@ export default function Header() {
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-gray-400 mx-2">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
                     </svg>
-                </button>
-                <button className='mx-2 my-1'>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-gray-400 mx-2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
                 </button> */}
 
-                {/* <ClickOutHandler onClickOut={() => setDropDown('hidden')}> */}
-                <button className='flex ml-4 my-1 rounded-md border border-gray-700' onClick={() => toggleDropDown()} >
-                    {/* <img src="./profile-pic.png" alt="" className=' w-8 h-8 block' /> */}
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="rounded-md bg-gray-500 w-9 h-9 block">
+                {!!user && user.role == 'admin' && (
+                    <Link to={'/add-user'} className={'mx-2 my-1 hover:bg-reddit_dark-brightest rounded-xl '}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-gray-400 mx-2 mt-1">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </Link>
+                )}
+
+
+                <span className=" text-reddit_text mt-2 hidden lg:flex">{!!user && user.role}/{!!user && user.name}</span>
+                <button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" class="mx-3 text-sm  rounded-full  " type="button">
+                    <span class="sr-only">Open user menu</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="rounded-full bg-gray-500 w-9 h-9 block mx-2">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    {!!user && (
-                        <div className="text-reddit_text my-1 mx-2 ">
-                            {user.name}
-                        </div>
-                    )}
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-gray-500 mt-2 mr-1">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-
                 </button>
-                {/* </ClickOutHandler> */}
-                <div className={"absolute right-0 top-9 bg-reddit_dark border border-gray-700 z-10 rounded-md text-reddit_text overflow-hidden text-sm " + dropDown}>
-                    {!user && (
-                        <Link to={'/login'} className="flex w-50 py-2 px-3 hover:bg-gray-300 hover:text-black">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2 ">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-                            </svg>
-                            Login / Sign up
-                        </Link>
-                    )}
-                    {!!user && (
-                        <Link to={'/account'}  className="flex w-50 py-2 px-3 hover:bg-gray-300 hover:text-black">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2 ">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-                            </svg>
-                            Profile
-                        </Link>
-                    )}
-
+                <div id="dropdownAvatar" class="z-10 hidden bg-reddit_dark divide-y divide-gray-100 rounded-lg shadow w-40 border border-reddit_border overflow-hidden">
+                    <div class="py-2 ">
+                        {!user && (
+                            <button
+                                onClick={() => authModal.setShow('login')}
+                                className="flex w-50 py-2 px-3 text-gray-300 w-full hover:bg-gray-300 hover:text-black text-sm">
+                                Log In 
+                            </button>
+                        )}
+                        {!!user && (
+                            <button
+                                onClick={() => logout()}
+                                className="flex w-50 py-2 px-3 text-gray-300 w-full hover:bg-gray-300 hover:text-black text-sm">
+                                Logout
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </header>
